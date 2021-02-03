@@ -541,12 +541,13 @@ int main(int argc, char *argv[]) {
         char *dest = (char *)malloc(kmer_length+1);
 
         uint32_t len = b->core.l_qseq; //length of the read.
-        for(int i=0; i< len ; i++){
+        int i;
+        for(i=0; i< len ; i++){
             qseq[i] = seq_nt16_str[bam_seqi(bam_seq,i)]; //gets nucleotide id and converts them into IUPAC id.
         }
 
         // slide a window of size k on the current read
-        int i;
+        // int i;
         for (i=0; i < readLength-kmer_length+1; i++) {
 
             // get the kmer starting from i
@@ -573,15 +574,15 @@ int main(int argc, char *argv[]) {
     // pthread_t *threads = pthread_t[nproc];
 
     // pthread_attr_t *threadAttr = pthread_attr_t[nproc];
-    int int;
+    // int int;
     // for procIndex = 0; procIndex < nproc; procIndex++ ){
     //         pthread_attr_init(&threadAttr[procIndex]);
     // }
-    int int;
+    // int int;
     // for i = 0; i < nproc; i++) {
     //     pthread_create(&threads[i], &threadAttr[i], (void* (*)(void*)) , &procs[i]);
     // }
-    int int;
+    // int int;
     // for procIndex = 0; procIndex < nproc; procIndex++) {
     //     pthread_join(threads[procIndex], NULL);
     // }
