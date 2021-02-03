@@ -4,8 +4,8 @@
 #include <string.h>
 #include <ctype.h>
 #include <pthread.h>
-#include "htslib-1.11/htslib/sam.h"
-#include "htslib-1.11/htslib/khash.h"
+#include "htslib/htslib/sam.h"
+#include "htslib/htslib/khash.h"
 // #include "htslib-1.11/htslib/hts.h"  
 
 #define CAPACITY 50000 // Size of the Hash Table
@@ -510,7 +510,7 @@ int main(int argc, char *argv[]) {
     }
     int start;
     int end;
-
+	int time_taken;
     // uint32_t *tar = bamHdr->text;
     // uint32_t *tarlen = bamHdr->target_len;
     // uint32_t *ref_count = bamHdr->ref_count;
@@ -521,6 +521,7 @@ int main(int argc, char *argv[]) {
             
     // read bam reads
     int nReads=0;
+	char* currChr;
     printf(" > Start searching the bam file\n");
     while (sam_read1(htsfp, bamHdr, b) > 0) {
         nReads+=1;
@@ -530,7 +531,13 @@ int main(int argc, char *argv[]) {
 
         //contig name (chromosome)
         char *chr = bamHdr->target_name[b->core.tid] ; 
-
+		if (strlen(currChr)==0 || strcmp(chr, currChr)!=0) {
+			time_taken = clock();
+			cpu_time_used = ((double)(time_taken-before))/CLOCKS_PER_SEC;
+			printf("kmerScan took %f seconds to execute %s\n", cpu_time_used, currChr`:);
+			currChr = chr;
+			printf("Processing %s\n", currChr);
+		}
         //the read length
         uint32_t readLength = b->core.l_qseq; 
 
@@ -563,7 +570,7 @@ int main(int argc, char *argv[]) {
             }
         }
         // printf(" %s\t%d\t%s\n",chr,readLength, qseq);
-        printf(" %s\t%d\t%d\n",chr,readLength, nReads);
+//        printf(" %s\t%d\t%d\n",chr,readLength, nReads);
 
     }
 
