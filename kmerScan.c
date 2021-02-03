@@ -534,7 +534,7 @@ int main(int argc, char *argv[]) {
 		if (strlen(currChr)==0 || strcmp(chr, currChr)!=0) {
 			time_taken = clock();
 			cpu_time_used = ((double)(time_taken-before))/CLOCKS_PER_SEC;
-			printf("kmerScan took %f seconds to execute %s\n", cpu_time_used, currChr`:);
+			printf("kmerScan took %f seconds to execute %s\n", cpu_time_used, currChr);
 			currChr = chr;
 			printf("Processing %s\n", currChr);
 		}
