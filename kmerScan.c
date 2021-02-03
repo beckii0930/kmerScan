@@ -151,7 +151,8 @@ static void free_linkedlist(LinkedList* list) {
 static LinkedList** create_overflow_buckets(HashTable* table) {
     // Create the overflow buckets; an array of linkedlists
     LinkedList** buckets = (LinkedList**) calloc (table->size, sizeof(LinkedList*));
-    for (int i=0; i<table->size; i++)
+    int i;
+    for (i=0; i<table->size; i++)
         buckets[i] = NULL;
     return buckets;
 }
@@ -159,7 +160,8 @@ static LinkedList** create_overflow_buckets(HashTable* table) {
 static void free_overflow_buckets(HashTable* table) {
     // Free all the overflow bucket lists
     LinkedList** buckets = table->overflow_buckets;
-    for (int i=0; i<table->size; i++)
+    int i;
+    for (i=0; i<table->size; i++)
         free_linkedlist(buckets[i]);
     free(buckets);
 }
@@ -183,7 +185,8 @@ HashTable* create_table(int size) {
     table->size = size;
     table->count = 0;
     table->items = (Ht_item**) calloc (table->size, sizeof(Ht_item*));
-    for (int i=0; i<table->size; i++)
+    int i;
+    for (i=0; i<table->size; i++)
         table->items[i] = NULL;
     table->overflow_buckets = create_overflow_buckets(table);
  
@@ -199,7 +202,8 @@ void free_item(Ht_item* item) {
  
 void free_table(HashTable* table) {
     // Frees the table
-    for (int i=0; i<table->size; i++) {
+    int i;
+    for (i=0; i<table->size; i++) {
         Ht_item* item = table->items[i];
         if (item != NULL)
             free_item(item);
@@ -394,7 +398,8 @@ void print_search(HashTable* table, char* key) {
 void print_table(HashTable* table) {
     printf("\n-------------------\n");
     int count = 0;
-    for (int i=0; i<table->size; i++) {
+    int i;
+    for (i=0; i<table->size; i++) {
         if (table->items[i]) {
             printf("Index:%d, Key:%s, Value:%u", i, table->items[i]->key, table->items[i]->value);
             count++;
@@ -541,10 +546,12 @@ int main(int argc, char *argv[]) {
         }
 
         // slide a window of size k on the current read
-        for (int i=0; i < readLength-kmer_length+1; i++) {
+        int i;
+        for (i=0; i < readLength-kmer_length+1; i++) {
 
             // get the kmer starting from i
-            for (int k=0; k < kmer_length; k++) {
+            int k;
+            for (k=0; k < kmer_length; k++) {
                 kseq[k] = seq_nt16_str[bam_seqi(bam_seq,i+k)]; 
             }
 
@@ -566,13 +573,16 @@ int main(int argc, char *argv[]) {
     // pthread_t *threads = pthread_t[nproc];
 
     // pthread_attr_t *threadAttr = pthread_attr_t[nproc];
-    // for (int procIndex = 0; procIndex < nproc; procIndex++ ){
+    int int;
+    // for procIndex = 0; procIndex < nproc; procIndex++ ){
     //         pthread_attr_init(&threadAttr[procIndex]);
     // }
-    // for (int i = 0; i < nproc; i++) {
+    int int;
+    // for i = 0; i < nproc; i++) {
     //     pthread_create(&threads[i], &threadAttr[i], (void* (*)(void*)) , &procs[i]);
     // }
-    // for (int procIndex = 0; procIndex < nproc; procIndex++) {
+    int int;
+    // for procIndex = 0; procIndex < nproc; procIndex++) {
     //     pthread_join(threads[procIndex], NULL);
     // }
     // print_table(ht);
