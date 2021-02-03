@@ -458,13 +458,27 @@ HashTable* generateHt(const char* kmersFileName) {
     }
     return ht;
 }
-// void scanBam(const char* bamFileName, int* nReads, bam_hdr_t *bamHdr, bam1_t *b){
-//     htsFile *htsfp;
-//     htsfp = hts_open(bamFileName,"r");
-//     while (sam_read1(htsfp, bamHdr, b) > 0) {
-//         nReads+=1;
-//     }
-// }
+ //int scanBam(const char* bamFileName, int* nReads, bam_hdr_t *bamHdr, bam1_t *b){
+int scanBam(const char* bamFileName){
+	int nReads;
+	htsFile *htsfp;
+    htsfp = hts_open(bamFileName,"r");
+ 	bam_hdr_t *bamHdr;
+	bamHdr = sam_hdr_read(htsfp); 
+ 	bam1_t *b;
+	if ((b = bam_init1()) == NULL) {
+		printf("Initialize bam failed\n");
+		return 0;
+	}
+	else{ 
+		printf(" > Initialized new bam alignment\n");
+	}
+	while (sam_read1(htsfp, bamHdr, b) > 0) {
+         nReads+=1;
+     }
+	hts_close(htsfp);
+	return nReads;
+ }
 int main(int argc, char *argv[]) {
     clock_t before,after;
     double cpu_time_used;
@@ -481,6 +495,11 @@ int main(int argc, char *argv[]) {
     htsFile *htsfp;
     htsfp = hts_open(bamFileName,"r");
     // first scan the bam to get the number of reads and other info
+	int num_Reads = scanBam(bamFileName);
+	clock_t read_time;
+	read_time=clock();
+	double read_time_used=((double)(read_time-before))/CLOCKS_PER_SEC;
+	printf("the total number of reads in bam is %d\n",num_Reads);
     bam_hdr_t *bamHdr;
     bamHdr = sam_hdr_read(htsfp);
     bam1_t *b;
